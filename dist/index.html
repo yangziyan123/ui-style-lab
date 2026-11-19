@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#171b19">
+  <meta name="description" content="用同一个项目工作台，实看并比较 UI/UX Pro Max 的五种界面风格。">
+  <title>界面风格实验室 · UI Style Lab</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23d7f56a'/%3E%3Cpath fill='none' stroke='%23171b19' stroke-width='2' d='m6 13 10-6 10 6-10 6zM6 18l10 6 10-6'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="lab.css">
+  <link rel="stylesheet" href="preview.css">
+  <link rel="stylesheet" href="themes.css">
+  <script src="catalog.js" defer></script>
+  <script src="lab.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#main">跳到主要内容</a>
+  <header class="lab-header">
+    <div class="wrap lab-header-inner">
+      <a class="lab-brand" href="./" aria-label="界面风格实验室首页">
+        <span class="lab-mark" aria-hidden="true"><svg viewBox="0 0 26 26" fill="none"><path d="m3 11 10-6 10 6-10 6zM3 16l10 6 10-6" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></span>
+        <span>UI Style Lab</span>
+      </a>
+      <span class="lab-source">UI/UX Pro Max · 风格图鉴</span>
+    </div>
+  </header>
+
+  <main class="wrap" id="main">
+    <div class="intro">
+      <div>
+        <h1>一套界面，<span>5</span> 种风格。</h1>
+        <p>在同一个项目工作台里，看看不同风格如何改变排版、配色、组件和交互。</p>
+      </div>
+      <div class="view-modes" role="group" aria-label="查看方式">
+        <button type="button" data-view="preview" aria-pressed="true">单样式</button>
+        <button type="button" data-view="compare" aria-pressed="false">并排比较</button>
+        <button type="button" data-view="gallery" aria-pressed="false">风格图鉴</button>
+      </div>
+    </div>
+
+    <div class="workspace">
+      <aside class="style-library" aria-labelledby="library-title">
+        <div class="library-tools">
+          <div class="library-heading"><h2 id="library-title">风格库</h2><span id="style-count" role="status">5 种风格</span></div>
+          <label class="search-field">
+            <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="8.5" cy="8.5" r="5" stroke="currentColor" stroke-width="1.6"/><path d="m12.2 12.2 4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+            <input id="style-search" type="search" placeholder="搜索中英文名称…" aria-label="搜索风格" autocomplete="off">
+          </label>
+          <label class="category-field"><span class="sr-only">按类别筛选</span><select id="style-category"><option value="all">全部类别</option></select><span aria-hidden="true"></span></label>
+        </div>
+        <div id="style-list" class="style-list" aria-label="风格列表"></div>
+      </aside>
+      <section class="showcase" id="showcase" aria-label="风格预览">
+        <div id="display-area"></div>
+        <p class="gallery-note">风格示例依据本地 UI/UX Pro Max 资料库制作。</p>
+      </section>
+    </div>
+  </main>
+  <footer class="wrap lab-footer"><span>UI Style Lab</span><span>基础模板 + 5 种风格示例</span></footer>
+  <p id="app-message" class="sr-only" role="status"></p>
+
+  <dialog id="copy-dialog" class="copy-dialog" aria-labelledby="copy-title">
+    <div class="copy-content">
+      <button type="button" id="close-copy" class="plain-close" aria-label="关闭">×</button>
+      <h2 id="copy-title">风格提示词</h2>
+      <p>可复制到下一次界面设计需求里。</p>
+      <textarea id="prompt-text" aria-label="可复制的风格提示词" readonly rows="5"></textarea>
+      <button type="button" id="copy-confirm" class="lab-button">复制文本</button>
+      <p id="copy-status" class="copy-status" role="status"></p>
+    </div>
+  </dialog>
+
+  <template id="preview-template">
+    <div class="specimen demo">
+      <div class="demo-header">
+        <div class="demo-brand"><span class="demo-symbol" aria-hidden="true"></span><span>NORTHSTAR</span></div>
+        <nav class="demo-nav" aria-label="示例应用导航">
+          <button type="button" data-jump="overview" aria-current="true">概览</button>
+          <button type="button" data-jump="projects">项目</button>
+          <button type="button" data-jump="settings">设置</button>
+        </nav>
+        <button type="button" class="demo-avatar" data-jump="settings" aria-label="打开工作台设置">N</button>
+      </div>
+      <div class="demo-main">
+        <section class="demo-hero" data-section="overview" tabindex="-1">
+          <div class="demo-hero-copy">
+            <p class="demo-kicker">PROJECT WORKSPACE</p>
+            <h2>Make room for<br>good work.</h2>
+            <p>安排项目、跟进进度，把重要的工作放在一起。</p>
+            <div class="demo-actions">
+              <button type="button" class="demo-button primary" data-demo="new">新建项目</button>
+              <button type="button" class="demo-button secondary" data-jump="projects">查看项目</button>
+            </div>
+          </div>
+          <div class="demo-art" aria-hidden="true"><span class="art-grid"></span><span class="art-shape shape-one"></span><span class="art-shape shape-two"></span><span class="art-shape shape-three"></span><span class="art-dot"></span></div>
+        </section>
+        <div class="stats" aria-label="项目统计">
+          <div class="demo-card stat"><span>进行中</span><strong data-active-count>12</strong><small>本周新增 2 项</small></div>
+          <div class="demo-card stat"><span>已完成</span><strong>8</strong><small>按计划交付</small></div>
+          <div class="demo-card stat"><span>团队成员</span><strong>5</strong><small>跨 3 个职能</small></div>
+        </div>
+        <div class="demo-body-grid">
+          <section class="demo-card activity" aria-label="项目活动图表">
+            <div class="demo-card-heading"><h3>项目活动</h3><div class="demo-segments" role="group" aria-label="图表时间范围"><button type="button" data-range="week" aria-pressed="true">7 天</button><button type="button" data-range="month" aria-pressed="false">30 天</button></div></div>
+            <div class="chart" role="img" aria-label="最近 7 天的示例项目活动" data-chart></div>
+          </section>
+          <section class="demo-card projects" data-section="projects" aria-label="最近项目" tabindex="-1">
+            <div class="demo-card-heading"><h3>最近项目</h3><span class="demo-chip">工作中</span></div>
+            <table><thead><tr><th scope="col">项目</th><th scope="col">状态</th></tr></thead><tbody data-project-rows></tbody></table>
+          </section>
+        </div>
+        <details class="demo-card demo-settings" data-section="settings">
+          <summary>工作台设置</summary>
+          <label class="switch-row"><span>项目动态提醒</span><input type="checkbox" class="demo-switch" role="switch" checked></label>
+        </details>
+        <p class="demo-message" role="status" hidden></p>
+      </div>
+      <dialog class="demo-dialog">
+        <div class="demo-dialog-inner">
+          <button type="button" class="demo-close" data-demo="close" aria-label="关闭">×</button>
+          <h3>新建项目</h3>
+          <form class="demo-form" novalidate>
+            <label>项目名称<input name="project" type="text" placeholder="例如：品牌更新" required maxlength="32" autocomplete="off"></label>
+            <p class="demo-error" role="alert" hidden>请输入项目名称。</p>
+            <label>可见范围<select name="visibility"><option>团队可见</option><option>仅自己</option></select></label>
+            <div class="demo-actions"><button type="submit" class="demo-button primary">创建项目</button><button type="button" class="demo-button secondary" data-demo="close">取消</button></div>
+          </form>
+        </div>
+      </dialog>
+    </div>
+  </template>
+</body>
+</html>
