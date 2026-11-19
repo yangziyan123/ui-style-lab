@@ -224,7 +224,7 @@ body {
   .style-library { animation: lab-settle 550ms 205ms var(--lab-snap) backwards; }
 
   /* One shared indicator follows the selected control. View content swaps immediately. */
-  .view-modes::before { transition: transform 560ms ease-out; }
+  .view-modes::before { transition: transform 200ms ease-out; }
   .view-modes button { transition: transform 180ms var(--lab-snap), border-color 100ms; }
   .view-modes button:active, .style-row:active { transform: translate(2px, 2px); transition-duration: 80ms; }
   .style-row { transition: transform 180ms var(--lab-snap), background-color 160ms, border-color 140ms; }
