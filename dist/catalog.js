@@ -29,7 +29,7 @@ const styles = [
   style("anti-polish-raw-aesthetic", "去修饰的原生美学", "Anti-Polish / Raw Aesthetic", "大胆与复古", "采用素纸、铅笔线、胶带和略有偏移的手绘边缘，呈现可读的工作草稿。", "Anti-Polish Raw"),
   style("nature-distilled", "自然本色", "Nature Distilled", "自然与叙事", "从砂、陶土与粉笔提炼暖色，用细微颗粒、柔和的投影和简洁曲面表达材质。"),
   style("vintage-analog-retro-film", "复古模拟胶片", "Vintage Analog / Retro Film", "大胆与复古", "用褪色调、胶片颗粒、相框和一抹漏光，呈现模拟摄影的印刷质感。"),
-  style("bauhaus", "包豪斯", "Bauhaus (包豪斯)", "大胆与复古", "让红圆、蓝矩形与黄三角服从几何网格。辅以清楚的字号和机械式按键反馈。", "Bauhaus"),
+  style("bauhaus", "包豪斯", "Bauhaus", "大胆与复古", "让红圆、蓝矩形与黄三角服从几何网格。辅以清楚的字号和机械式按键反馈。", "Bauhaus"),
 ];
 
 const groups = [...new Set(styles.map(({ group }) => group))];
