@@ -15,9 +15,6 @@ const template = document.getElementById("preview-template");
 const search = document.getElementById("style-search");
 const category = document.getElementById("style-category");
 const list = document.getElementById("style-list");
-const copyDialog = document.getElementById("copy-dialog");
-const promptField = document.getElementById("prompt-text");
-const copyStatus = document.getElementById("copy-status");
 
 let view = viewNames.has(parameters.get("view")) ? parameters.get("view") : "preview";
 let selectedId = themeById.has(parameters.get("style")) ? parameters.get("style") : defaultStyle;
@@ -89,16 +86,12 @@ function colorPalette(theme) {
     '<span class="palette-dot"></span><span class="palette-dot"></span><span class="palette-dot"></span></div>';
 }
 
-function copyButton(theme) {
-  return theme === base ? "" : '<button type="button" class="lab-button" data-copy="' + theme.id + '">风格提示词</button>';
-}
-
 function singleView() {
   const theme = themeById.get(selectedId);
   display.innerHTML =
     '<div class="preview-toolbar"><div><h2 class="preview-title" tabindex="-1">' + theme.name + '</h2>' +
     '<p class="preview-name-en" lang="en">' + theme.english + '</p></div>' +
-    '<div class="preview-tools">' + colorPalette(theme) + copyButton(theme) + '</div></div>' +
+    '<div class="preview-tools">' + colorPalette(theme) + '</div></div>' +
     '<div class="preview-frame"><div data-mount="' + theme.id + '"></div><p class="preview-description">' +
     theme.note + '</p></div>';
 }
@@ -112,8 +105,7 @@ function compareCard(id, side) {
   ).join("");
   return '<article><div class="preview-toolbar compare-head"><label>风格 ' + side + '<select data-side="' + side + '">' +
     options + '</select></label>' + colorPalette(theme) + '</div><div class="preview-frame">' +
-    '<div data-mount="' + id + '"></div><p class="preview-description">' + theme.note + '</p>' +
-    (theme === base ? "" : '<div class="compare-copy">' + copyButton(theme) + '</div>') + '</div></article>';
+    '<div data-mount="' + id + '"></div><p class="preview-description">' + theme.note + '</p></div></article>';
 }
 
 function compareView() {
@@ -206,16 +198,6 @@ function setView(mode) {
   rememberSelection();
 }
 
-function showPrompt(id) {
-  const theme = themeById.get(id);
-  promptField.value = "采用「" + theme.name + "（" + theme.english + "）」设计界面。" + theme.note +
-    " 将这一风格一致地应用到导航、标题、按钮、卡片、图表、表格、表单及反馈状态。";
-  copyStatus.textContent = "";
-  copyDialog.showModal();
-  promptField.focus();
-  promptField.select();
-}
-
 function jumpTo(root, section) {
   const target = root.querySelector('[data-section="' + section + '"]');
   root.querySelectorAll(".demo-nav button").forEach((button) => {
@@ -264,10 +246,6 @@ display.addEventListener("click", (event) => {
   if (!button) return;
   if (button.dataset.pick) {
     setSelection(button.dataset.pick, true);
-    return;
-  }
-  if (button.dataset.copy) {
-    showPrompt(button.dataset.copy);
     return;
   }
   const root = button.closest(".specimen");
@@ -327,18 +305,6 @@ display.addEventListener("input", (event) => {
   event.target.removeAttribute("aria-invalid");
   event.target.form.querySelector(".demo-error").hidden = true;
 });
-
-document.getElementById("copy-confirm").addEventListener("click", async () => {
-  try {
-    await navigator.clipboard.writeText(promptField.value);
-    copyStatus.textContent = "已复制。";
-  } catch {
-    promptField.focus();
-    promptField.select();
-    copyStatus.textContent = "已选中文字，按 Ctrl+C 或 ⌘C 复制。";
-  }
-});
-document.getElementById("close-copy").addEventListener("click", () => copyDialog.close());
 
 renderLibrary();
 renderDisplay();
