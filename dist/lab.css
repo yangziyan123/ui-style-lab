@@ -54,8 +54,7 @@ body {
 .lab-header-inner { min-height: 66px; display: flex; align-items: center; justify-content: space-between; gap: 15px; }
 .lab-brand { display: inline-flex; min-height: 44px; align-items: center; gap: 12px; font-weight: 900; font-size: 1.28rem; letter-spacing: -.055em; white-space: nowrap; }
 .lab-brand:focus-visible { outline: 3px solid var(--lab-white); }
-.lab-mark { width: 36px; height: 36px; display: grid; place-items: center; color: var(--lab-black); background: var(--lab-yellow); border: 2px solid; box-shadow: 3px 3px 0 var(--lab-black); }
-.lab-mark svg { width: 24px; height: 24px; }
+.lab-mark { display: block; flex: none; border: 2px solid var(--lab-black); box-shadow: 3px 3px 0 var(--lab-black); }
 .lab-source { color: var(--lab-white); text-align: right; font-size: .85rem; font-weight: 720; }
 .intro {
   display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 22px 28px;
