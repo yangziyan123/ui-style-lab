@@ -4,12 +4,13 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#171b19">
-  <meta name="description" content="用同一个项目工作台，实看并比较 UI/UX Pro Max 的五种界面风格。">
+  <meta name="description" content="用同一个项目工作台，预览并比较 UI/UX Pro Max 的 50 种界面风格。">
   <title>界面风格实验室 · UI Style Lab</title>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23d7f56a'/%3E%3Cpath fill='none' stroke='%23171b19' stroke-width='2' d='m6 13 10-6 10 6-10 6zM6 18l10 6 10-6'/%3E%3C/svg%3E">
   <link rel="stylesheet" href="lab.css">
   <link rel="stylesheet" href="preview.css">
   <link rel="stylesheet" href="themes.css">
+  <link rel="stylesheet" href="catalog-themes.css">
   <script src="catalog.js" defer></script>
   <script src="lab.js" defer></script>
 </head>
@@ -28,7 +29,7 @@
   <main class="wrap" id="main">
     <div class="intro">
       <div>
-        <h1>一套界面，<span>5</span> 种风格。</h1>
+        <h1>一套界面，<span data-catalog-total>50</span> 种风格。</h1>
         <p>在同一个项目工作台里，看看不同风格如何改变排版、配色、组件和交互。</p>
       </div>
       <div class="view-modes" role="group" aria-label="查看方式">
@@ -41,7 +42,7 @@
     <div class="workspace">
       <aside class="style-library" aria-labelledby="library-title">
         <div class="library-tools">
-          <div class="library-heading"><h2 id="library-title">风格库</h2><span id="style-count" role="status">5 种风格</span></div>
+          <div class="library-heading"><h2 id="library-title">风格库</h2><span id="style-count" role="status">50 种风格</span></div>
           <label class="search-field">
             <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="8.5" cy="8.5" r="5" stroke="currentColor" stroke-width="1.6"/><path d="m12.2 12.2 4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
             <input id="style-search" type="search" placeholder="搜索中英文名称…" aria-label="搜索风格" autocomplete="off">
@@ -56,7 +57,7 @@
       </section>
     </div>
   </main>
-  <footer class="wrap lab-footer"><span>UI Style Lab</span><span>基础模板 + 5 种风格示例</span></footer>
+  <footer class="wrap lab-footer"><span>UI Style Lab</span><span>基础模板 + <span data-catalog-total>50</span> 种风格示例</span></footer>
   <p id="app-message" class="sr-only" role="status"></p>
 
   <dialog id="copy-dialog" class="copy-dialog" aria-labelledby="copy-title">
@@ -127,6 +128,44 @@
           </form>
         </div>
       </dialog>
+    </div>
+  </template>
+
+  <template id="sample-inclusive-design">
+    <details class="demo-chart-reading">
+      <summary>查看图表数据</summary>
+      <ol data-chart-values></ol>
+    </details>
+  </template>
+  <template id="sample-zero-interface">
+    <form class="demo-card demo-sample" data-command-form>
+      <label>快速指令 <select name="command"><option value="projects">查看项目</option><option value="new">新建项目</option><option value="settings">打开设置</option></select></label>
+      <button class="demo-button primary" type="submit">执行</button>
+    </form>
+  </template>
+  <template id="sample-ai-native-ui">
+    <details class="demo-card demo-settings demo-context">
+      <summary>示例助手 · 项目摘要</summary>
+      <p>当前有 <strong data-active-count>12</strong> 个进行中的项目。可以从最近项目开始查看进度。</p>
+      <button class="demo-button secondary" type="button" data-jump="projects">查看最近项目</button>
+    </details>
+  </template>
+  <template id="sample-kinetic-typography">
+    <div class="demo-card demo-sample">
+      <button class="demo-button secondary" type="button" data-replay>重播标题动效</button>
+      <span class="demo-motion-status">系统已开启减少动态效果。</span>
+    </div>
+  </template>
+  <template id="sample-voice-first-multimodal">
+    <div class="demo-card demo-sample demo-voice">
+      <span class="demo-wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+      <span data-voice-status role="status">已就绪</span>
+      <button class="demo-button secondary" type="button" aria-pressed="false" data-voice>模拟聆听</button>
+    </div>
+  </template>
+  <template id="sample-3d-product-preview">
+    <div class="demo-card demo-sample">
+      <label>旋转样品 <input type="range" min="-70" max="70" value="-26" data-product-angle></label>
     </div>
   </template>
 </body>

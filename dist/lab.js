@@ -18,6 +18,7 @@ const list = document.getElementById("style-list");
 const copyDialog = document.getElementById("copy-dialog");
 const promptField = document.getElementById("prompt-text");
 const copyStatus = document.getElementById("copy-status");
+const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)");
 
 let view = viewNames.has(parameters.get("view")) ? parameters.get("view") : "preview";
 let selectedId = themeById.has(parameters.get("style")) ? parameters.get("style") : defaultStyle;
@@ -35,6 +36,9 @@ const bars = {
   month: [34, 43, 65, 50, 41, 68, 62, 76, 66, 79, 73, 89],
 };
 
+document.querySelectorAll("[data-catalog-total]").forEach((count) => {
+  count.textContent = styles.length;
+});
 for (const group of groups) {
   category.append(new Option(group, group));
 }
@@ -43,7 +47,9 @@ function matchingStyles() {
   const query = search.value.trim().toLocaleLowerCase();
   return styles.filter((theme) =>
     (category.value === "all" || category.value === theme.group) &&
-    (theme.name + " " + theme.english + " " + theme.id).toLocaleLowerCase().includes(query)
+    [theme.name, theme.english, theme.id, ...theme.aliases.split("|")].some((name) =>
+      name.toLocaleLowerCase().includes(query)
+    )
   );
 }
 
@@ -56,6 +62,7 @@ function renderLibrary() {
     '<span class="style-swatch" data-theme="' + theme.id + '" aria-hidden="true"></span>' +
     '<span><strong>' + theme.name + '</strong><small lang="en">' + theme.english + '</small></span></button>'
   ).join("") + (available.length ? "" : '<p class="empty">没有匹配的风格。</p>');
+  list.scrollTop = 0;
   markSelection();
 }
 
@@ -99,8 +106,10 @@ function singleView() {
 
 function compareCard(id, side) {
   const theme = themeById.get(id);
-  const options = themes.map((option) =>
-    '<option value="' + option.id + '"' + (option.id === id ? ' selected' : "") + '>' + option.name + '</option>'
+  const option = (item) => '<option value="' + item.id + '"' +
+    (item.id === id ? " selected" : "") + ">" + item.name + "</option>";
+  const options = option(base) + groups.map((group) =>
+    '<optgroup label="' + group + '">' + styles.filter((item) => item.group === group).map(option).join("") + '</optgroup>'
   ).join("");
   return '<article><div class="preview-toolbar compare-head"><label>风格 ' + side + '<select data-side="' + side + '">' +
     options + '</select></label>' + colorPalette(theme) + '</div><div class="preview-frame">' +
@@ -129,6 +138,23 @@ function galleryView() {
     ).join("") + '</div>';
 }
 
+function mountStyleSample(root) {
+  const id = root.dataset.theme;
+  const sample = document.getElementById("sample-" + id);
+  if (sample) {
+    const content = sample.content.cloneNode(true);
+    const chart = root.querySelector("[data-chart]");
+    (id === "inclusive-design" ? chart : root.querySelector(".demo-hero")).after(content);
+  }
+  if (id === "interactive-cursor-design") {
+    const art = root.querySelector(".demo-art");
+    art.addEventListener("pointermove", (event) => {
+      art.style.setProperty("--pointer-x", event.offsetX + "px");
+      art.style.setProperty("--pointer-y", event.offsetY + "px");
+    });
+  }
+}
+
 function renderDisplay() {
   if (view === "gallery") galleryView();
   else if (view === "compare") compareView();
@@ -141,6 +167,7 @@ function renderDisplay() {
     heading.id = "new-project-title-" + (++previewCount);
     root.querySelector(".demo-dialog").setAttribute("aria-labelledby", heading.id);
     root.querySelector(".demo-switch").checked = reminders;
+    mountStyleSample(root);
     host.appendChild(fragment);
   });
   renderActivity();
@@ -156,6 +183,9 @@ function renderActivity() {
   display.querySelectorAll("[data-range]").forEach((button) =>
     button.setAttribute("aria-pressed", String(button.dataset.range === range))
   );
+  display.querySelectorAll("[data-chart-values]").forEach((list) => {
+    list.innerHTML = bars[range].map((value) => "<li>" + value + "</li>").join("");
+  });
 }
 
 function renderProjects() {
@@ -223,6 +253,16 @@ function jumpTo(root, section) {
   target.scrollIntoView({ behavior: "auto", block: "nearest" });
 }
 
+function openProjectDialog(root) {
+  const dialog = root.querySelector(".demo-dialog");
+  const form = dialog.querySelector("form");
+  form.reset();
+  form.querySelector(".demo-error").hidden = true;
+  form.elements.project.removeAttribute("aria-invalid");
+  dialog.showModal();
+  form.elements.project.focus();
+}
+
 document.querySelector(".view-modes").addEventListener("click", (event) => {
   const button = event.target.closest("[data-view]");
   if (button) setView(button.dataset.view);
@@ -254,20 +294,25 @@ display.addEventListener("click", (event) => {
   }
   const root = button.closest(".specimen");
   if (!root) return;
+  if (button.hasAttribute("data-replay") && !reducedMotion.matches) {
+    const title = root.querySelector(".demo-hero h2");
+    title.getAnimations().forEach((animation) => animation.cancel());
+    title.animate(
+      [{ transform: "translateX(16px) skewX(-8deg)", opacity: .55 }, { transform: "none", opacity: 1 }],
+      { duration: 420, easing: "cubic-bezier(.2,.65,.3,1)" }
+    );
+  }
+  if (button.hasAttribute("data-voice")) {
+    const listening = button.getAttribute("aria-pressed") === "false";
+    button.setAttribute("aria-pressed", String(listening));
+    root.querySelector("[data-voice-status]").textContent = listening ? "正在模拟聆听" : "已就绪";
+  }
   if (button.dataset.jump) jumpTo(root, button.dataset.jump);
   if (button.dataset.range) {
     range = button.dataset.range;
     renderActivity();
   }
-  if (button.dataset.demo === "new") {
-    const dialog = root.querySelector(".demo-dialog");
-    const form = dialog.querySelector("form");
-    form.reset();
-    form.querySelector(".demo-error").hidden = true;
-    form.elements.project.removeAttribute("aria-invalid");
-    dialog.showModal();
-    form.elements.project.focus();
-  }
+  if (button.dataset.demo === "new") openProjectDialog(root);
   if (button.dataset.demo === "close") root.querySelector(".demo-dialog").close();
 });
 
@@ -289,6 +334,14 @@ display.addEventListener("change", (event) => {
 
 display.addEventListener("submit", (event) => {
   const form = event.target;
+  if (form.hasAttribute("data-command-form")) {
+    event.preventDefault();
+    const root = form.closest(".specimen");
+    const command = form.elements.command.value;
+    if (command === "new") openProjectDialog(root);
+    else jumpTo(root, command);
+    return;
+  }
   if (!form.matches(".demo-form")) return;
   event.preventDefault();
   const input = form.elements.project;
@@ -313,6 +366,10 @@ display.addEventListener("submit", (event) => {
 });
 
 display.addEventListener("input", (event) => {
+  if (event.target.hasAttribute("data-product-angle")) {
+    event.target.closest(".specimen").style.setProperty("--product-angle", event.target.value + "deg");
+    return;
+  }
   if (event.target.name !== "project") return;
   event.target.removeAttribute("aria-invalid");
   event.target.form.querySelector(".demo-error").hidden = true;
