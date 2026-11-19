@@ -10,7 +10,9 @@
   <link rel="stylesheet" href="lab.css">
   <link rel="stylesheet" href="preview.css">
   <link rel="stylesheet" href="themes.css">
+  <link rel="stylesheet" href="base-components.css">
   <script src="catalog.js" defer></script>
+  <script src="base-components.js" defer></script>
   <script src="lab.js" defer></script>
 </head>
 <body>
@@ -128,6 +130,102 @@
         </div>
       </dialog>
     </div>
+  </template>
+
+  <template id="base-components-template">
+    <section class="base-components" data-section="components" tabindex="-1">
+      <header class="base-section-heading">
+        <h3>组件样例</h3>
+        <p>试试筛选、填写表单，或切换加载状态。</p>
+      </header>
+
+      <section class="demo-card base-card" aria-label="项目列表">
+        <div class="base-card-heading">
+          <h4>项目列表</h4>
+          <span class="base-count" data-base-count role="status"></span>
+        </div>
+        <div class="base-list-tools">
+          <div class="demo-segments base-segments" role="group" aria-label="按状态筛选项目">
+            <button type="button" data-base-filter="all" aria-pressed="true">全部</button>
+            <button type="button" data-base-filter="进行中" aria-pressed="false">进行中</button>
+            <button type="button" data-base-filter="待评审" aria-pressed="false">待评审</button>
+            <button type="button" data-base-filter="已完成" aria-pressed="false">已完成</button>
+          </div>
+          <input class="base-control base-search" type="search" data-base-search aria-label="搜索项目" placeholder="搜索项目名称…" autocomplete="off">
+        </div>
+        <table class="base-table">
+          <thead><tr><th scope="col">项目</th><th scope="col">状态</th><th scope="col" class="base-owner">负责人</th><th scope="col">进度</th></tr></thead>
+          <tbody data-base-rows></tbody>
+        </table>
+        <div class="base-empty" data-base-empty hidden>
+          <strong>没有找到项目</strong>
+          <p>换个关键词，或清除当前筛选。</p>
+          <button class="demo-button secondary" type="button" data-base-reset-list>清除筛选</button>
+        </div>
+        <div class="base-pagination" data-base-pagination>
+          <span data-base-page></span>
+          <div class="base-page-actions">
+            <button class="demo-button secondary" type="button" data-base-page-by="-1">上一页</button>
+            <button class="demo-button secondary" type="button" data-base-page-by="1">下一页</button>
+          </div>
+        </div>
+      </section>
+
+      <div class="base-panel-grid">
+        <section class="demo-card base-card" aria-label="项目偏好">
+          <div class="base-card-heading"><h4>项目偏好</h4></div>
+          <form class="base-form" novalidate>
+            <div class="base-field">
+              <label>项目名称<input class="base-control" type="text" name="projectName" maxlength="32" required autocomplete="off"></label>
+              <p class="base-field-error" role="alert" hidden>请输入项目名称。</p>
+            </div>
+            <div class="base-form-grid">
+              <label class="base-field">优先级
+                <select class="base-control" name="priority"><option value="normal">普通</option><option value="high">高</option><option value="low">低</option></select>
+              </label>
+              <label class="base-field">计划日期<input class="base-control" name="due" type="date"></label>
+            </div>
+            <fieldset class="base-fieldset">
+              <legend>默认视图</legend>
+              <div class="base-options">
+                <label><input type="radio" name="layout" value="list">列表</label>
+                <label><input type="radio" name="layout" value="board">看板</label>
+              </div>
+            </fieldset>
+            <label class="base-field">备注<textarea class="base-control" name="notes" rows="2" maxlength="160" placeholder="记录待跟进事项…"></textarea></label>
+            <label class="base-check"><input type="checkbox" name="includeSummary">将此项目纳入每周摘要</label>
+            <div class="demo-actions base-form-actions">
+              <button class="demo-button primary" type="submit">保存偏好</button>
+              <button class="demo-button secondary" type="button" data-base-restore>重置表单</button>
+            </div>
+            <p class="base-form-feedback" role="status"></p>
+          </form>
+        </section>
+
+        <section class="demo-card base-card" aria-label="反馈与页面状态">
+          <div class="base-card-heading"><h4>反馈与状态</h4></div>
+          <ul class="base-alerts" aria-label="四种通知样例">
+            <li class="base-alert positive"><span class="base-alert-icon" aria-hidden="true">✓</span><div><strong>成功</strong><span>偏好已保存。</span></div></li>
+            <li class="base-alert info"><span class="base-alert-icon" aria-hidden="true">i</span><div><strong>提示</strong><span>每周一发送项目摘要。</span></div></li>
+            <li class="base-alert warning"><span class="base-alert-icon" aria-hidden="true">!</span><div><strong>警告</strong><span>预算使用已达 80%。</span></div></li>
+            <li class="base-alert danger"><span class="base-alert-icon" aria-hidden="true">×</span><div><strong>错误</strong><span>同步失败，请重试。</span></div></li>
+          </ul>
+          <div class="base-state-box">
+            <h5>页面状态</h5>
+            <div class="demo-segments base-segments" role="group" aria-label="切换页面状态样例">
+              <button type="button" data-base-state="ready" aria-pressed="true">已加载</button>
+              <button type="button" data-base-state="loading" aria-pressed="false">加载中</button>
+              <button type="button" data-base-state="empty" aria-pressed="false">空状态</button>
+            </div>
+            <div class="base-state-example" role="status" data-base-state-preview>
+              <div data-base-state-sample="ready"><strong>项目周报</strong><p>已有 3 条更新。</p></div>
+              <div data-base-state-sample="loading" hidden><span class="base-skeleton" aria-hidden="true"></span><span class="base-skeleton short" aria-hidden="true"></span><span class="sr-only">正在加载项目周报。</span></div>
+              <div data-base-state-sample="empty" hidden><strong>暂无更新</strong><p>发布动态后将在这里显示。</p></div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </section>
   </template>
 </body>
 </html>
