@@ -4,7 +4,7 @@ const base = {
   id: "base",
   name: "基础模板",
   english: "Base specimen",
-  note: "从工作台导航进入「组件」，查看项目筛选、分页、表单、通知及页面状态。",
+  note: "共用的项目工作台，包含导航、主视觉、按钮、指标卡、图表、表格、开关和新建项目表单。",
 };
 const themes = [base, ...styles];
 const themeById = new Map(themes.map((theme) => [theme.id, theme]));
@@ -141,7 +141,6 @@ function renderDisplay() {
     heading.id = "new-project-title-" + (++previewCount);
     root.querySelector(".demo-dialog").setAttribute("aria-labelledby", heading.id);
     root.querySelector(".demo-switch").checked = reminders;
-    if (root.dataset.theme === "base") mountBaseComponents(root, projects, previewCount);
     host.appendChild(fragment);
   });
   renderActivity();
@@ -174,7 +173,6 @@ function renderProjects() {
       chip.textContent = project.status;
       row.insertCell().appendChild(chip);
     }
-    body.closest('.specimen[data-theme="base"]')?.dispatchEvent(new Event("base-projects-changed"));
   });
 }
 
@@ -222,7 +220,7 @@ function jumpTo(root, section) {
   } else {
     target.focus();
   }
-  target.scrollIntoView({ behavior: "auto", block: section === "components" ? "start" : "nearest" });
+  target.scrollIntoView({ behavior: "auto", block: "nearest" });
 }
 
 document.querySelector(".view-modes").addEventListener("click", (event) => {
