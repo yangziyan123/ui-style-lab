@@ -96,35 +96,6 @@
 [data-theme="neubrutalism"] .stat:nth-child(2) { background: #b8ed92; }
 [data-theme="neubrutalism"] .stat:nth-child(3) { background: #d8cbff; }
 
-[data-theme="bento-box-grid"] {
-  --demo-bg: #f2f2f7;
-  --surface: #ffffff;
-  --surface-strong: #ededff;
-  --ink-demo: #201e36;
-  --muted-demo: #565369;
-  --border-demo: #dcdbea;
-  --accent: #6053d3;
-  --hero: #282443;
-  --hero-ink: #f8f6ff;
-  --hero-muted: #e3dff0;
-  --art-1: #9d90fd;
-  --art-2: #d8f576;
-  --art-3: #ffc4a9;
-  --radius: 15px;
-  --depth: 0 3px 8px #2117390b;
-  --hero-depth: none;
-}
-[data-theme="bento-box-grid"] .art-grid { background-image: linear-gradient(#c1aaff34 1px, transparent 1px), linear-gradient(90deg, #c1aaff34 1px, transparent 1px); mask-image: linear-gradient(90deg, transparent, #000 23%); }
-[data-theme="bento-box-grid"] .shape-one { width: 41%; border-radius: 23% 23% 46% 23%; top: 15%; right: 21%; transform: rotate(-14deg); box-shadow: 0 13px 21px #0f0c2882; }
-[data-theme="bento-box-grid"] .shape-two { width: 29%; right: 42%; bottom: 12%; border-radius: 28% 50% 28% 28%; transform: rotate(18deg); box-shadow: 0 10px 21px #0f0c2872; }
-[data-theme="bento-box-grid"] .shape-three { right: 12%; bottom: 15%; width: 24%; border-radius: 17% 17% 17% 50%; clip-path: none; transform: rotate(14deg); box-shadow: 0 10px 21px #0f0c2872; }
-[data-theme="bento-box-grid"] .art-dot { top: 14%; right: 11%; background: #dabdff; }
-[data-theme="bento-box-grid"] .stat:nth-child(1) { background: #ede9ff; }
-[data-theme="bento-box-grid"] .stat:nth-child(2) { background: #e8f5df; }
-[data-theme="bento-box-grid"] .stat:nth-child(3) { background: #fff1e7; }
-.specimen[data-theme="bento-box-grid"] .stats { grid-template-columns: 1.29fr 1fr .83fr; }
-.specimen[data-theme="bento-box-grid"] .demo-body-grid { grid-template-columns: minmax(0, 1.25fr) minmax(0, .75fr); }
-
 [data-theme="editorial-grid-magazine"] {
   --demo-bg: #f4edde;
   --surface: #fbf6ea;
@@ -159,9 +130,7 @@
 .specimen[data-theme="editorial-grid-magazine"] .demo-card-heading h3 { font-family: var(--demo-heading); }
 
 @container (max-width: 400px) {
-  .specimen[data-theme="bento-box-grid"] .demo-body-grid { grid-template-columns: minmax(0, 1fr); }
   .specimen[data-theme="glassmorphism"] .shape-one { width: clamp(52px, 27%, 80px); }
-  .specimen[data-theme="bento-box-grid"] .art-shape { width: clamp(52px, 24%, 72px); }
   .specimen[data-theme="editorial-grid-magazine"] .shape-one { width: 46%; }
   .specimen[data-theme="editorial-grid-magazine"] .shape-two { width: 50%; }
   .specimen[data-theme="minimalism-and-swiss-style"] .shape-one { width: clamp(55px, 24%, 85px); }
